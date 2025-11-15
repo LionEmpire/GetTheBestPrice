@@ -1,53 +1,76 @@
-import { Millennium, IconsModule, definePlugin, Field, DialogButton, callable } from '@steambrew/client';
+import { 
+    IconsModule, 
+    definePlugin, 
+    Field, 
+    DialogButton, 
+    callable,
+    TextField 
+} from '@steambrew/client';
 
-class classname {
-	static method(country: string, age: number) {
-		console.log(`age: ${age}, country: ${country}`);
-		return 'method called';
-	}
-}
+// Import React hooks from the global Millennium object
+const { useState, useEffect } = window.SP_REACT;
 
-// export classname class to global context
-Millennium.exposeObj({ classname });
+// --- Define our backend functions ---
+const loadApiKey = callable<[], string>('load_api_key');
+const saveApiKey = callable<[{key: string}], boolean>('save_api_key');
 
-function windowCreated(context: any) {
-	// window create event.
-	// you can interact directly with the document and monitor it with dom observers
-	// you can then render components in specific pages.
-	console.log(context);
-}
 
-// Declare a function that exists on the backend
-const backendMethod = callable<[{ message: string; status: boolean; count: number }], boolean>('test_frontend_message_callback');
-
+// --- This is our functional settings page ---
 const SettingsContent = () => {
+    // Create state for the API key text and a "saved" message
+    const [apiKey, setApiKey] = useState("");
+    const [saveMessage, setSaveMessage] = useState("");
+
+    // 1. Load the key from the backend when the page opens
+    useEffect(() => {
+        loadApiKey().then(key => {
+            setApiKey(key || "");
+        });
+    }, []);
+
+    // 2. Handle the save button click
+    const onSaveClick = () => {
+        setSaveMessage("Saving...");
+        saveApiKey({key: apiKey}).then(success => {
+            if (success) {
+                setSaveMessage("Saved! Please restart Steam.");
+            } else {
+                setSaveMessage("Failed to save. Check logs.");
+            }
+            // Clear message after 3 seconds
+            setTimeout(() => setSaveMessage(""), 3000);
+        });
+    };
+
 	return (
-		<Field label="Plugin Settings" description="This is a description of the plugin settings." icon={<IconsModule.Settings />} bottomSeparator="standard" focusable>
-			<DialogButton
-				onClick={() => {
-					console.log('Button clicked!');
-				}}
-			>
-				Click Me
-			</DialogButton>
-		</Field>
+        // Use a React Fragment (<>) to group multiple fields
+        <>
+            {/* Row 1: The Text Field */}
+            <Field 
+                label="GG.deals API Key" 
+                description="Get your free API key from your GG.deals account settings."
+                icon={<IconsModule.Settings />} 
+                bottomSeparator="standard"
+            >
+                <TextField
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                    label="Paste your API key here" // This acts as the placeholder
+                />
+            </Field>
+
+            {/* Row 2: The Save Button */}
+            <Field bottomSeparator="standard"><DialogButton onClick={onSaveClick}>Save Key</DialogButton></Field>
+
+            {/* * Row 3: The "Saved!" message.*/}
+            {saveMessage && (<Field description={saveMessage}/>)}
+        </>
 	);
 };
 
 export default definePlugin(() => {
-	// Call the backend method
-	backendMethod({
-		message: 'Hello World From Frontend!',
-		status: true,
-		count: 69,
-	}).then((message: any) => {
-		console.log('Result from backendMethod:', message);
-	});
-
-	Millennium.AddWindowCreateHook(windowCreated);
-
 	return {
-		title: 'My Plugin',
+		title: 'Get the Best Price Settings',
 		icon: <IconsModule.Settings />,
 		content: <SettingsContent />,
 	};

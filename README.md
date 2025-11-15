@@ -1,44 +1,40 @@
-> [!CAUTION]
-> This plugin example does not work on the stable version of Millennium. (Written on October 26, 2025 — by the time you’re reading this, stable support might have been released. If we forgot to update this note, please let us know.)
->
-> Millennium is currently transitioning from Python plugins to Lua plugins. Lua plugin support is available only in the alpha and beta channels — you can find these builds on Millennium’s releases page.
->
-> While regular users on the stable channel won’t be able to run your plugin yet, we chose to provide a Lua example early to save you from writing an entire plugin in Python only to have to port it to Lua later.
+# GetTheBestPrice for Millennium
 
-## Plugin Template
+A Millennium plugin that displays the best current and historical game prices from [GG.deals](https://gg.deals/) directly on the Steam store page.
 
-A plugin template for Millennium providing a basic boilerplate to help get started. You'll need a decent understanding in python, and typescript (superset of javascript)
-<br>
+![GetTheBestPrice in action](https://imgur.com/a/768WdPC)
 
-## Prerequisites
+---
 
-- **[Millennium](https://github.com/SteamClientHomebrew/Millennium)**
+## ⚠️ Millennium Version Requirement
 
-## Setting up
+This plugin is built using the new Lua backend. It will **only work** on Millennium **v2.31.0-alpha.1 or later**. It will crash on older, python-only versions of Millennium.
 
-```ps1
-git clone https://github.com/SteamClientHomebrew/PluginTemplate
-cd PluginTemplate
-```
+---
 
-## Building
+## 📦 Installation
 
-```
-pnpm run dev
-```
+1. Make sure you are on Millennium **v2.31.0-alpha.1 or later**.
+2. Download the latest release from the [Releases](https://github.com/LionEmpire/GetTheBestPrice/releases) page.
+3. Copy the plugin id from [Steambrew](https://steambrew.app/plugins) and install through Millennium, or extract the `GetTheBestPrice` folder into your Millennium `plugins` folder (usually `C:\Program Files (x86)\Steam\plugins\`) and restart Steam.
+4. Enable `GetTheBestPrice` plugin in the Millennium plugin menu.
+5. Restart Steam again.
 
-Then ensure your plugin template is in your plugins folder.
-`%MILLENNIUM_PATH%/plugins/plugin_template`, and select it from the "Plugins" tab within Steam.
+---
 
-If you wish to develop your plugin outside of `%MILLENNIUM_PATH%/plugins`, you can create a symbolic link from your development path to the plugins path
+## ⚙️ Configuration (Required)
 
-#### Note:
+This plugin requires a free API key from GG.deals to function.
 
-**MILLENNIUM_PATH** =
+1. Click Millennium in the top left corner, open **Millennium Library Manager**, find **Get the Best Price** and click the settings icon (cog wheel) next to it.
+2. Get your API key:
+    * Create an account on [GG.deals](https://gg.deals/).
+    * Go to your **Settings > API** page, or [click here for the direct link](https://gg.deals/api/) once you've got your account, and generate a key.
+3. Paste your API key into the text box and click **Save Key**.
+4. **Restart Steam** for the change to take effect.
 
-- Steam Path (ex: `C:\Program Files (x86)\Steam`) (Windows)
-- `~/.local/share/millennium` (Unix)
+---
 
-## Next Steps
+## 📜 Attribution
 
-https://docs.steambrew.app/developers/plugins/learn
+This plugin uses data provided by [GG.deals](https://gg.deals/). Free API access is for personal and hobby use only, and attribution is required.
