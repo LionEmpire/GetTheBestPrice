@@ -2,7 +2,7 @@
 
 A Millennium plugin that displays the best current and historical game prices from [GG.deals](https://gg.deals/) directly on the Steam store page.
 
-![GetTheBestPrice in action](https://imgur.com/a/768WdPC)
+![GetTheBestPrice in action]([https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png](https://imgur.com/a/768WdPC) "GetTheBestPrice")
 
 ---
 
