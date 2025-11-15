@@ -2,7 +2,7 @@
 	"$schema": "https://raw.githubusercontent.com/SteamClientHomebrew/Millennium/main/src/sys/plugin-schema.json",
 
 	"name": "GetTheBestPrice",
-	"common_name": "Get the Best Price",
+	"common_name": "GetTheBestPrice",
 	"description": "v2.31+ only. Displays the best current and historical game prices from GG.deals directly on the Steam store page.",
 	"backendType": "lua"
 }
